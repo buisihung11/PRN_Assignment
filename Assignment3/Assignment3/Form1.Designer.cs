@@ -46,6 +46,7 @@
             // 
             // dgvBookList
             // 
+            this.dgvBookList.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgvBookList.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvBookList.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.dgvBookList.Location = new System.Drawing.Point(0, 243);

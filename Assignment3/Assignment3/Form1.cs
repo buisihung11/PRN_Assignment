@@ -33,7 +33,19 @@ namespace Assignment3
 
         private void GetData()
         {
+            //Xoa rang buoc du lieu tren cac TextBoxes de Binding lai lan sau
+            txtBookID.DataBindings.Clear();
+            txtBookTitle.DataBindings.Clear();
+            txtBookPrice.DataBindings.Clear();
+            txtBookQuantity.DataBindings.Clear();
+
             dgvBookList.DataSource = productDb.GetProducts();
+            //Rang buoc du lieu tren cac Textboxes
+            txtBookID.DataBindings.Add("Text", dgvBookList.DataSource, "ProductID");
+            txtBookTitle.DataBindings.Add("Text", dgvBookList.DataSource, "ProductName");
+            txtBookPrice.DataBindings.Add("Text", dgvBookList.DataSource, "UnitPrice");
+            txtBookQuantity.DataBindings.Add("Text", dgvBookList.DataSource, "Quantity");
+            
 
         }
 
@@ -45,16 +57,31 @@ namespace Assignment3
                 MessageBox.Show("ID >= 0");
                 return;
             }
-            string Title = txtBookTitle.Text;
-            float Price = float.Parse(txtBookPrice.Text);
-            int Quantity = int.Parse(txtBookQuantity.Text);
-            if (productDb.AddProduct(new Product{ProductID = ID,Quantity = Quantity,ProductName = Title,UnitPrice = Price}))
+            string Title = txtBookTitle.Text.Trim();
+            if(Title.Length <= 0)
             {
-                MessageBox.Show("Save successful");
+                MessageBox.Show("Please enter name");
+                txtBookTitle.Focus();
+                return;
             }
-            else
+
+            try
             {
-                MessageBox.Show("Save fail.");
+                float Price = float.Parse(txtBookPrice.Text);
+                int Quantity = int.Parse(txtBookQuantity.Text);
+                if (productDb.AddProduct(new Product { ProductID = ID, Quantity = Quantity, ProductName = Title, UnitPrice = Price }))
+                {
+                    MessageBox.Show("Save successful");
+                }
+                else
+                {
+                    MessageBox.Show("Save fail.");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+                return;
             }
             GetData();
         }
